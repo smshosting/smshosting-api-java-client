@@ -10,7 +10,7 @@ Cartella smshostingApiTest
 ==========================
 Contiene un progetto Maven con gli esempi delle chiamate più usate di smshosting.
 
-Per ogni risorsa sono porposti, ma sempre modificabili per testare gli errori:
+Per ogni risorsa sono proposti, ma sempre modificabili per testare gli errori:
 
 * url
 * parametri
