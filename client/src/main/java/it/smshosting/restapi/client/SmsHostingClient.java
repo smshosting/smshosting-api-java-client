@@ -10,7 +10,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.ObjectMapper;
 import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.request.body.MultipartBody;
+import it.smshosting.restapi.client.model.Contact;
+import it.smshosting.restapi.client.model.ContactSearchResult;
 import it.smshosting.restapi.client.model.Estimate;
+import it.smshosting.restapi.client.model.Group;
 import it.smshosting.restapi.client.model.SendResult;
 import it.smshosting.restapi.client.model.SmsReceivedSearchResult;
 import it.smshosting.restapi.client.model.SmsReceivedSimResult;
@@ -19,6 +23,7 @@ import it.smshosting.restapi.client.model.User;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -157,7 +162,7 @@ public class SmsHostingClient {
 
     }
 
-    public boolean cancelSms(String id, String transactionId) {
+    public boolean cancelSms(int id, String transactionId) {
         try {
             // SMS send
             HttpResponse<String> response = Unirest.post(buildURL("sms/cancel"))
@@ -212,6 +217,7 @@ public class SmsHostingClient {
     ///////
     //sms received
     //////
+    
     public SmsReceivedSearchResult searchSmsReceived(String from,
             String simIdRef,
             String fromDate,
@@ -256,7 +262,223 @@ public class SmsHostingClient {
         }
 
     }
+    
+    ///////
+    //phonebook groups
+    //////
+    
+    public List<Group> getGroupList() {
+        try {
 
+            HttpResponse<String> response = Unirest.get(buildURL("phonebook/group/list"))
+                    .basicAuth(authKey, authSecret)
+                    .asString();
+            if (response != null) {
+                TypeReference tr = new TypeReference<List<Group>>() {};
+                return new com.fasterxml.jackson.databind.ObjectMapper().readValue(response.getBody(), tr);
+            }
+            return null;
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "client error", e);
+            return null;
+        }
+
+    }
+    
+    public Group getGroup(Integer id) {
+        try {
+            HttpResponse<Group> response = Unirest.get(buildURL("phonebook/group/"+id))
+                    .basicAuth(authKey, authSecret)
+                    .asObject(Group.class);
+            return response.getBody();
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "client error", e);
+            return null;
+        }
+    }
+    
+    public ContactSearchResult getGroupContacts(int id,int offset,int limit) {
+        try {
+            HttpResponse<ContactSearchResult> response = Unirest.get(buildURL("phonebook/group/"+id+"/contacts?offset="+offset+"&limit="+limit))
+                    .basicAuth(authKey, authSecret)
+                    .asObject(ContactSearchResult.class);
+            return response.getBody();
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "client error", e);
+            return null;
+        }
+    }
+    
+    public Group addGroup(String name) {
+        try {
+            // SMS send
+            HttpResponse<Group> response = Unirest.post(buildURL("phonebook/group"))
+                    .basicAuth(authKey, authSecret)
+                    .field("name", name)
+                    .asObject(Group.class);
+            return response.getBody();
+
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "client error", e);
+            return null;
+        }
+
+    }
+
+    public Group updateGroup(int id,String name) {
+        try {
+            // SMS send
+            HttpResponse<Group> response = Unirest.put(buildURL("phonebook/group/"+id))
+                    .basicAuth(authKey, authSecret)
+                    .field("name", name)
+                    .asObject(Group.class);
+            return response.getBody();
+
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "client error", e);
+            return null;
+        }
+
+    }
+    
+    public boolean deleteGroup(int id,boolean deleteContacts) {
+        try {
+            // SMS send
+            HttpResponse<String> response = Unirest.delete(buildURL("phonebook/group/"+id+"?delete_contacts="+deleteContacts))
+                    .basicAuth(authKey, authSecret)
+                    .asString();
+            if (response != null && response.getStatus() >= 200 && response.getStatus() <= 299) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "client error", e);
+            return false;
+        }
+
+    }
+    
+    ///////
+    //phonebook contacts
+    //////
+    
+    public ContactSearchResult searchContacts(String name, int offset, int limit) {
+        try {
+
+            HttpResponse<ContactSearchResult> response = Unirest.get(buildURL("phonebook/contact/search"))
+                    .basicAuth(authKey, authSecret)
+                    .queryString("name", name)
+                    .queryString("offset", offset)
+                    .queryString("limit", limit)
+                    .asObject(ContactSearchResult.class);
+
+            return response.getBody();
+
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "client error", e);
+            return null;
+        }
+
+    }
+    
+    public Contact getContact(String msisdn) {
+        try {
+            HttpResponse<Contact> response = Unirest.get(buildURL("phonebook/contact/"+msisdn))
+                    .basicAuth(authKey, authSecret)
+                    .asObject(Contact.class);
+            return response.getBody();
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "client error", e);
+            return null;
+        }
+    }
+        
+    public Contact addContact(String msisdn,
+            String name,
+            String lastname,
+            String email,
+            String groupsId,
+            Map<String,String> customFields) {
+        try {
+            
+            MultipartBody body = Unirest.post(buildURL("phonebook/contact"))
+                    .basicAuth(authKey, authSecret)
+                    .field("msisdn", msisdn)
+                    .field("name", name)
+                    .field("lastname", lastname)
+                    .field("email", email)
+                    .field("groupsId", groupsId);
+            
+            if(customFields != null) {
+                for(String key : customFields.keySet()) {
+                    body.field(key, customFields.get(key));
+                }
+            }
+            
+            HttpResponse<Contact> response = body.asObject(Contact.class);
+            return response.getBody();
+
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "client error", e);
+            return null;
+        }
+
+    }
+    
+    public Contact updateContact(String msisdn,
+            String name,
+            String lastname,
+            String email,
+            String groupsId,
+            Map<String,String> customFields) {
+        try {
+            
+            MultipartBody body = Unirest.put(buildURL("phonebook/contact/"+msisdn))
+                    .basicAuth(authKey, authSecret)
+                    .field("name", name)
+                    .field("lastname", lastname)
+                    .field("email", email)
+                    .field("groupsId", groupsId);
+            
+            if(customFields != null) {
+                for(String key : customFields.keySet()) {
+                    body.field(key, customFields.get(key));
+                }
+            }
+            
+            HttpResponse<Contact> response = body.asObject(Contact.class);
+            return response.getBody();
+
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "client error", e);
+            return null;
+        }
+
+    }
+    
+    public boolean deleteContact(String msisdn) {
+        try {
+            // SMS send
+            HttpResponse<String> response = Unirest.delete(buildURL("phonebook/contact/"+msisdn))
+                    .basicAuth(authKey, authSecret)
+                    .asString();
+            if (response != null && response.getStatus() >= 200 && response.getStatus() <= 299) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "client error", e);
+            return false;
+        }
+
+    }
+    
+    
+        
     ///////
     //user requests
     //////
