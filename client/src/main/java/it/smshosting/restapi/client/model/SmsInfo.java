@@ -18,6 +18,7 @@ public class SmsInfo {
     private String insertDate;
     private String sentDate;
     private String deliveryDate;
+    private String dataDifferito;    
     private String transactionId;
     private String type;
     private MultimediaContent multimediaContent;
@@ -100,6 +101,14 @@ public class SmsInfo {
         this.deliveryDate = deliveryDate;
     }
 
+    public String getDataDifferito() {
+        return dataDifferito;
+    }
+
+    public void setDataDifferito(String dataDifferito) {
+        this.dataDifferito = dataDifferito;
+    }    
+    
     public Double getPrice() {
         return price;
     }

@@ -7,7 +7,7 @@ package it.smshosting.restapi.client.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public class User extends GenericResponse{
     
     private Integer id;
     private String name;

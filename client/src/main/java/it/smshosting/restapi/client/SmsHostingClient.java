@@ -11,11 +11,16 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.ObjectMapper;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.request.body.MultipartBody;
+import it.smshosting.restapi.client.model.Alias;
+import it.smshosting.restapi.client.model.AliasListResponse;
 import it.smshosting.restapi.client.model.Contact;
 import it.smshosting.restapi.client.model.ContactSearchResult;
+import it.smshosting.restapi.client.model.DeleteAliasResult;
 import it.smshosting.restapi.client.model.Estimate;
+import it.smshosting.restapi.client.model.GenericResponse;
 import it.smshosting.restapi.client.model.Group;
 import it.smshosting.restapi.client.model.SendResult;
+import it.smshosting.restapi.client.model.SmsInfo;
 import it.smshosting.restapi.client.model.SmsReceivedSearchResult;
 import it.smshosting.restapi.client.model.SmsReceivedSimResult;
 import it.smshosting.restapi.client.model.SmsSearchResult;
@@ -37,7 +42,7 @@ public class SmsHostingClient {
 
     private static final Logger log = Logger.getLogger(SmsHostingClient.class.getName());
 
-    public static final String DEFAULT_ENDPOINT = "https://api.smshosting.it/rest/api/";
+    public static final String DEFAULT_ENDPOINT = "https://api.apph.it/rest/api/";
 
     private String authKey;
     private String authSecret;
@@ -69,6 +74,95 @@ public class SmsHostingClient {
             }
         });
     }
+    
+    
+    
+     public Alias createAlias(String alias,
+            String businessname,
+            String address,
+            String city,
+            String postcode,
+            String province,
+            String country,
+            String vatnumber,
+            String email,
+            String phone,
+             String taxcode,
+             String encoding) {
+        try {
+            // SMS send
+            HttpResponse<Alias> response = Unirest.post(buildURL("alias"))
+                    .basicAuth(authKey, authSecret)
+                    .field("alias", alias)
+                    .field("businessname", businessname)
+                    .field("address", address)
+                    .field("city", city)
+                    .field("postcode", postcode)
+                    .field("province", province)
+                    .field("country", country)
+                    .field("vatnumber", vatnumber)
+                    .field("email", email)
+                    .field("phone", phone)
+                    .field("taxcode", taxcode)
+                     .field("encoding", encoding)
+                    .asObject(Alias.class);
+            
+            return response.getBody();
+
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "client error", e);
+            return null;
+        }
+
+    }
+     
+     public AliasListResponse getAlias() {
+        try {
+            AliasListResponse result = new AliasListResponse();
+            // SMS send
+            HttpResponse<String> response = Unirest.get(buildURL("alias/list"))
+                    .basicAuth(authKey, authSecret)
+                    .asString();
+            
+            if (response != null && response.getStatus() >= 200 && response.getStatus() <= 299) {
+                TypeReference tr = new TypeReference<List<Alias>>() {};
+                result.setAliasList((List<Alias>)new com.fasterxml.jackson.databind.ObjectMapper().readValue(response.getBody(), tr));
+            } else {
+                result.setErrorCode(response.getStatusText());
+            }            
+
+            return result;
+
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "client error", e);
+            return null;
+        }
+
+    }     
+    
+     public GenericResponse deleteAlias(String id) {
+        try {
+            GenericResponse result = new GenericResponse();
+            // SMS send
+            HttpResponse<String> response = Unirest.delete(buildURL("alias/"+id))
+                    .basicAuth(authKey, authSecret)
+                    .asString();
+
+            if (response != null && response.getStatus() >= 200 && response.getStatus() <= 299) {
+                
+            } else {
+                TypeReference tr = new TypeReference<GenericResponse>() {};
+                result = new com.fasterxml.jackson.databind.ObjectMapper().readValue(response.getBody(), tr);                
+            }   
+            
+            return result;
+
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "client error", e);
+            return null;
+        }
+
+    }     
 
     ///////
     //sms requests
@@ -77,7 +171,7 @@ public class SmsHostingClient {
             String to,
             String group,
             String text,
-            Date sendDate,
+            String sendDate,
             String transactionId,
             Boolean sandbox,
             String statusCallback,
@@ -162,23 +256,27 @@ public class SmsHostingClient {
 
     }
 
-    public boolean cancelSms(int id, String transactionId) {
+    public GenericResponse cancelSms(String id, String transactionId) {
         try {
             // SMS send
-            HttpResponse<String> response = Unirest.post(buildURL("sms/cancel"))
+            HttpResponse<GenericResponse> response = Unirest.post(buildURL("sms/cancel"))
                     .basicAuth(authKey, authSecret)
                     .field("id", id)
                     .field("transactionId", transactionId)
-                    .asString();
+                    .asObject(GenericResponse.class);
+            return response.getBody();
+            /*            
             if (response != null && response.getStatus() >= 200 && response.getStatus() <= 299) {
-                return true;
+                TypeReference tr = new TypeReference<List<SmsInfo>>() {};
+                return new com.fasterxml.jackson.databind.ObjectMapper().readValue(response.getBody(), tr);
             } else {
-                return false;
-            }
+                return null;
+            }   
+            */
 
         } catch (Exception e) {
             log.log(Level.SEVERE, "client error", e);
-            return false;
+            return null;
         }
 
     }

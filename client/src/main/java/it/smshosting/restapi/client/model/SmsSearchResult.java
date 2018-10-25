@@ -6,7 +6,7 @@ package it.smshosting.restapi.client.model;
 
 import java.util.List;
 
-public class SmsSearchResult {
+public class SmsSearchResult extends GenericResponse{
     
     private Metadata metadata;
     private List<SmsInfo> smsList;

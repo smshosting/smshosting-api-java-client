@@ -6,7 +6,7 @@ package it.smshosting.restapi.client.model;
 
 import java.util.List;
 
-public class SendResult {
+public class SendResult extends GenericResponse{
 
     public final static String SEND_SANDBOX="SANDBOX";
     public final static String SEND_STATUS_INSERTED="INSERTED";
