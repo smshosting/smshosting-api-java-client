@@ -42,7 +42,7 @@ public class SmsHostingClient {
 
     private static final Logger log = Logger.getLogger(SmsHostingClient.class.getName());
 
-    public static final String DEFAULT_ENDPOINT = "https://api.apph.it/rest/api/";
+    public static final String DEFAULT_ENDPOINT = "https://api.smshosting.it/rest/api/";
 
     private String authKey;
     private String authSecret;
