@@ -52,6 +52,8 @@ public class SmsHostingClient {
         this.authKey = authKey;
         this.authSecret = authSecret;
 
+        Unirest.setTimeouts(10000, 300000);
+        
         //mapper for unirest
         Unirest.setObjectMapper(new ObjectMapper() {
             private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
@@ -178,7 +180,7 @@ public class SmsHostingClient {
             String statusCallback,
             String encoding) {
         try {
-            // SMS send
+            // SMS send            
             HttpResponse<SendResult> response = Unirest.post(buildURL("sms/send"))
                     .basicAuth(authKey, authSecret)
                     .field("from", from)
