@@ -30,7 +30,7 @@ public class SmsHostingClientTest {
     @Before
     public void setUp() {
         //test credential
-        client = new SmsHostingClient("", "");
+        client = new SmsHostingClient();
     }
 
     @After

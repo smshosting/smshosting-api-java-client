@@ -45,16 +45,14 @@ public class SmsHostingClient {
 
     private static final Logger log = Logger.getLogger(SmsHostingClient.class.getName());        
 
-    public static final String DEFAULT_ENDPOINT = "https://api.smshosting.it/rest/api/";    
+    public static final String DEFAULT_ENDPOINT = "https://api.apph.it/rest/api/";    
     
     private static SmsHostingClient clientSmsh;
-    
-    private String authKey;
-    private String authSecret;
+   
 
-    public static SmsHostingClient getInstance(String key,String secret){
+    public static SmsHostingClient getInstance(){
         if (clientSmsh == null){ //if there is no instance available... create new one
-            clientSmsh = new SmsHostingClient(key,secret);
+            clientSmsh = new SmsHostingClient();
         }
 
         return clientSmsh;
@@ -62,9 +60,7 @@ public class SmsHostingClient {
     
     
     
-    public SmsHostingClient(String authKey, String authSecret) {
-        this.authKey = authKey;
-        this.authSecret = authSecret;
+    public SmsHostingClient() {
 
         //Unirest.setTimeouts(10000, 300000);
         
@@ -109,8 +105,10 @@ public class SmsHostingClient {
             String vatnumber,
             String email,
             String phone,
-             String taxcode,
-             String encoding) {
+            String taxcode,
+            String encoding,
+            String authKey, 
+            String authSecret) {
         try {
                        
             HttpRequestWithBody request = Unirest.post(buildURL("alias"))
@@ -165,7 +163,9 @@ public class SmsHostingClient {
 
     }
      
-     public AliasListResponse getAlias() {
+     public AliasListResponse getAlias(
+            String authKey, 
+            String authSecret) {
         try {
             AliasListResponse result = new AliasListResponse();
             // SMS send
@@ -189,7 +189,10 @@ public class SmsHostingClient {
 
     }     
     
-     public GenericResponse deleteAlias(String id) {
+     public GenericResponse deleteAlias(
+            String id,
+            String authKey, 
+            String authSecret) {
         try {
             GenericResponse result = new GenericResponse();
             // SMS send
@@ -224,7 +227,9 @@ public class SmsHostingClient {
             String transactionId,
             Boolean sandbox,
             String statusCallback,
-            String encoding) {
+            String encoding,
+            String authKey, 
+            String authSecret) {
         try {
             // SMS send            
             HttpRequestWithBody request = Unirest.post(buildURL("sms/send"))
@@ -278,7 +283,9 @@ public class SmsHostingClient {
             Boolean sandbox,
             String statusCallback,
             String transactionCallback,
-            String encoding) {
+            String encoding,
+            String authKey, 
+            String authSecret) {
         try {                         
             
             HttpRequestWithBody request = Unirest.post(buildURL("sms/sendbulk"))
@@ -331,7 +338,9 @@ public class SmsHostingClient {
             String to,
             String group,
             String text,
-            String encoding) {
+            String encoding,
+            String authKey, 
+            String authSecret) {
         try {
             
             HttpRequestWithBody request = Unirest.post(buildURL("sms/estimate"))
@@ -368,7 +377,11 @@ public class SmsHostingClient {
 
     }
 
-    public GenericResponse cancelSms(String id, String transactionId) {
+    public GenericResponse cancelSms(
+            String id, 
+            String transactionId,
+            String authKey, 
+            String authSecret) {
         try {
                        
             
@@ -417,7 +430,9 @@ public class SmsHostingClient {
             String toDate,
             String status,
             int offset,
-            int limit) {
+            int limit,
+            String authKey, 
+            String authSecret) {
         try {
             
             GetRequest request = Unirest.get(buildURL("sms/search"))
@@ -470,7 +485,9 @@ public class SmsHostingClient {
             String fromDate,
             String toDate,
             int offset,
-            int limit) {
+            int limit,
+            String authKey, 
+            String authSecret) {
         try {
 
 /*
@@ -532,7 +549,9 @@ public class SmsHostingClient {
 
     }
 
-    public List<SmsReceivedSimResult> getSimForReceiveSmsList() {
+    public List<SmsReceivedSimResult> getSimForReceiveSmsList(
+            String authKey, 
+            String authSecret) {
         try {
 
             HttpResponse<String> response = Unirest.get(buildURL("sms/received/sim/list"))
@@ -554,7 +573,9 @@ public class SmsHostingClient {
     //phonebook groups
     //////
     
-    public List<Group> getGroupList() {
+    public List<Group> getGroupList(
+            String authKey, 
+            String authSecret) {
         try {
 
             HttpResponse<String> response = Unirest.get(buildURL("phonebook/group/list"))
@@ -572,7 +593,9 @@ public class SmsHostingClient {
 
     }
     
-    public Group getGroup(Integer id) {
+    public Group getGroup(Integer id,
+            String authKey, 
+            String authSecret) {
         try {
             HttpResponse<Group> response = Unirest.get(buildURL("phonebook/group/"+id))
                     .basicAuth(authKey, authSecret)
@@ -584,7 +607,12 @@ public class SmsHostingClient {
         }
     }
     
-    public ContactSearchResult getGroupContacts(int id,int offset,int limit) {
+    public ContactSearchResult getGroupContacts(
+            int id,
+            int offset,
+            int limit,
+            String authKey, 
+            String authSecret) {
         try {
             HttpResponse<ContactSearchResult> response = Unirest.get(buildURL("phonebook/group/"+id+"/contacts?offset="+offset+"&limit="+limit))
                     .basicAuth(authKey, authSecret)
@@ -596,7 +624,10 @@ public class SmsHostingClient {
         }
     }
     
-    public Group addGroup(String name) {
+    public Group addGroup(
+            String name,
+            String authKey, 
+            String authSecret) {
         try {
                      
             HttpRequestWithBody request = Unirest.post(buildURL("phonebook/group"))
@@ -627,7 +658,11 @@ public class SmsHostingClient {
 
     }
 
-    public Group updateGroup(int id,String name) {
+    public Group updateGroup(
+            int id,
+            String name,
+            String authKey, 
+            String authSecret) {
         try {
                        
             HttpRequestWithBody request = Unirest.put(buildURL("phonebook/group/"+id))
@@ -659,7 +694,11 @@ public class SmsHostingClient {
 
     }
     
-    public boolean deleteGroup(int id,boolean deleteContacts) {
+    public boolean deleteGroup(
+            int id,
+            boolean deleteContacts,
+            String authKey, 
+            String authSecret) {
         try {
             // SMS send
             HttpResponse<String> response = Unirest.delete(buildURL("phonebook/group/"+id+"?delete_contacts="+deleteContacts))
@@ -682,7 +721,12 @@ public class SmsHostingClient {
     //phonebook contacts
     //////
     
-    public ContactSearchResult searchContacts(String name, int offset, int limit) {
+    public ContactSearchResult searchContacts(
+            String name, 
+            int offset, 
+            int limit,
+            String authKey, 
+            String authSecret) {
         try {
                         
             GetRequest request = Unirest.get(buildURL("phonebook/contact/search"))
@@ -717,7 +761,10 @@ public class SmsHostingClient {
 
     }
     
-    public Contact getContact(String msisdn) {
+    public Contact getContact(
+            String msisdn,
+            String authKey, 
+            String authSecret) {
         try {
             HttpResponse<Contact> response = Unirest.get(buildURL("phonebook/contact/"+msisdn))
                     .basicAuth(authKey, authSecret)
@@ -734,7 +781,9 @@ public class SmsHostingClient {
             String lastname,
             String email,
             String groupsId,
-            Map<String,String> customFields) {
+            Map<String,String> customFields,
+            String authKey, 
+            String authSecret) {
         try {
                         
             HttpRequestWithBody request = Unirest.post(buildURL("phonebook/contact"))
@@ -790,7 +839,9 @@ public class SmsHostingClient {
             String lastname,
             String email,
             String groupsId,
-            Map<String,String> customFields) {
+            Map<String,String> customFields,
+            String authKey, 
+            String authSecret) {
         try {
                         
             HttpRequestWithBody request = Unirest.put(buildURL("phonebook/contact/"+msisdn))
@@ -838,7 +889,10 @@ public class SmsHostingClient {
 
     }
     
-    public boolean deleteContact(String msisdn) {
+    public boolean deleteContact(
+            String msisdn,
+            String authKey, 
+            String authSecret) {
         try {
             // SMS send
             HttpResponse<String> response = Unirest.delete(buildURL("phonebook/contact/"+msisdn))
@@ -862,7 +916,9 @@ public class SmsHostingClient {
     ///////
     //user requests
     //////
-    public User getUser() {
+    public User getUser(
+            String authKey, 
+            String authSecret) {
         try {
             HttpResponse<User> response = Unirest.get(buildURL("user"))
                     .basicAuth(authKey, authSecret)
