@@ -28,6 +28,7 @@ public class Alias extends GenericResponse{
     private String phone;
     private String status;
     private String pec;
+    private String ip;
  
 
     public String getId() {
@@ -140,6 +141,20 @@ public class Alias extends GenericResponse{
 
     public void setPec(String pec) {
         this.pec = pec;
+    }
+
+    /**
+     * @return the ip
+     */
+    public String getIp() {
+        return ip;
+    }
+
+    /**
+     * @param ip the ip to set
+     */
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
    
