@@ -45,7 +45,7 @@ public class SmsHostingClient {
 
     private static final Logger log = Logger.getLogger(SmsHostingClient.class.getName());        
 
-    public static final String DEFAULT_ENDPOINT = "https://api.smshosting.it/rest/api/";    
+    public static final String DEFAULT_ENDPOINT = "https://api.smshosting.it/rest/api/";       
     
     private static SmsHostingClient clientSmsh;
    
@@ -107,6 +107,8 @@ public class SmsHostingClient {
             String phone,
             String taxcode,
             String encoding,
+            String pec, 
+            String ip,
             String authKey, 
             String authSecret) {
         try {
@@ -127,6 +129,8 @@ public class SmsHostingClient {
             if(phone != null) params.put("phone",phone);
             if(taxcode != null) params.put("taxcode",taxcode);
             if(encoding != null) params.put("encoding",encoding);
+            if(pec != null) params.put("pec",pec);
+            if(ip != null) params.put("ip",ip);
             
             HttpResponse<Alias> response = request
                     .fields(params)
@@ -134,27 +138,6 @@ public class SmsHostingClient {
             
             return response.getBody();            
 
-
-            // SMS send
-            /*
-            HttpResponse<Alias> response = Unirest.post(buildURL("alias"))
-                    .basicAuth(authKey, authSecret)
-                    .field("alias", alias)
-                    .field("businessname", businessname)
-                    .field("address", address)
-                    .field("city", city)
-                    .field("postcode", postcode)
-                    .field("province", province)
-                    .field("country", country)
-                    .field("vatnumber", vatnumber)
-                    .field("email", email)
-                    .field("phone", phone)
-                    .field("taxcode", taxcode)
-                     .field("encoding", encoding)
-                    .asObject(Alias.class);
-            
-            return response.getBody();
-            */
 
         } catch (Exception e) {
             log.log(Level.SEVERE, "client error", e);
@@ -251,21 +234,7 @@ public class SmsHostingClient {
                     .asObject(SendResult.class); 
             
             return response.getBody();
-            /*
-            HttpResponse<SendResult> response = Unirest.post(buildURL("sms/send"))
-                    .basicAuth(authKey, authSecret)
-                    .field("from", from)
-                    .field("to", to)                    
-                    .field("group", group)
-                    .field("text", text)
-                    .field("date", sendDate)
-                    .field("transactionId", transactionId)
-                    .field("sandbox", sandbox != null ? sandbox.toString() : null)
-                    .field("statusCallback", statusCallback)
-                    .field("encoding", encoding)                    
-                    .asObject(SendResult.class);                        
-            
-            return response.getBody();*/
+
 
         } catch (Exception e) {
             log.log(Level.SEVERE, "client error", e);
@@ -309,23 +278,6 @@ public class SmsHostingClient {
             
             return response.getBody();             
             
-            // SMS send
-            /*
-            HttpResponse<SendResult> response = Unirest.post(buildURL("sms/sendbulk"))
-                    .basicAuth(authKey, authSecret)
-                    .field("from", from)
-                    .field("to", to)
-                    .field("group", group)
-                    .field("text", text)
-                    .field("date", sendDate)
-                    .field("transactionId", transactionId)
-                    .field("sandbox", sandbox != null ? sandbox.toString() : null)
-                    .field("statusCallback", statusCallback)
-                    .field("transactionCallback", transactionCallback)
-                    .field("encoding", encoding)
-                    .asObject(SendResult.class);
-            return response.getBody();
-            */
 
         } catch (Exception e) {
             log.log(Level.SEVERE, "client error", e);
@@ -358,17 +310,6 @@ public class SmsHostingClient {
             
             return response.getBody();
             
-            // SMS send
-            /*
-            HttpResponse<Estimate> response = Unirest.post(buildURL("sms/estimate"))
-                    .basicAuth(authKey, authSecret)
-                    .field("from", from)
-                    .field("to", to)
-                    .field("group", group)
-                    .field("text", text)
-                    .asObject(Estimate.class);
-            return response.getBody();
-            */
 
         } catch (Exception e) {
             log.log(Level.SEVERE, "client error", e);
@@ -398,23 +339,6 @@ public class SmsHostingClient {
             
             return response.getBody();             
             
-            // SMS send
-            /*
-            HttpResponse<GenericResponse> response = Unirest.post(buildURL("sms/cancel"))
-                    .basicAuth(authKey, authSecret)
-                    .field("id", id)
-                    .field("transactionId", transactionId)
-                    .asObject(GenericResponse.class);
-            return response.getBody();
-            */
-            /*            
-            if (response != null && response.getStatus() >= 200 && response.getStatus() <= 299) {
-                TypeReference tr = new TypeReference<List<SmsInfo>>() {};
-                return new com.fasterxml.jackson.databind.ObjectMapper().readValue(response.getBody(), tr);
-            } else {
-                return null;
-            }   
-            */
 
         } catch (Exception e) {
             log.log(Level.SEVERE, "client error", e);
@@ -454,21 +378,6 @@ public class SmsHostingClient {
             
             return response.getBody();            
 
-            /*
-            HttpResponse<SmsSearchResult> response = Unirest.get(buildURL("sms/search"))
-                    .basicAuth(authKey, authSecret)
-                    .queryString("id", id)
-                    .queryString("transactionId", transactionId)
-                    .queryString("msisdn", msisdn)
-                    .queryString("fromDate", fromDate)
-                    .queryString("toDate", toDate)
-                    .queryString("status", status)
-                    .queryString("offset", offset)
-                    .queryString("limit", limit)
-                    .asObject(SmsSearchResult.class);
-
-            return response.getBody();
-            */
         } catch (Exception e) {
             log.log(Level.SEVERE, "client error", e);
             return null;
@@ -489,28 +398,7 @@ public class SmsHostingClient {
             String authKey, 
             String authSecret) {
         try {
-
-/*
-            HttpRequestWithBody request = Unirest.post(buildURL("sms/send"))
-                    .basicAuth(authKey, authSecret);
             
-            HashMap <String,Object> params = new HashMap<>();
-            if(from != null) params.put("from",from);
-            if(to != null) params.put("to",to);
-            if(group != null) params.put("group",group);
-            if(text != null) params.put("text",text);
-            if(sendDate != null) params.put("date",sendDate);
-            if(transactionId != null) params.put("transactionId",transactionId);
-            if(sandbox != null) params.put("sandbox",sandbox.toString());
-            if(statusCallback != null) params.put("statusCallback",statusCallback);
-            if(encoding != null) params.put("encoding",encoding);
-            
-            HttpResponse<SendResult> response = request
-                    .fields(params)
-                    .asObject(SendResult.class); 
-            
-            return response.getBody();            
-*/             
             GetRequest request = Unirest.get(buildURL("sms/received/search"))
                     .basicAuth(authKey, authSecret);            
             
@@ -528,19 +416,6 @@ public class SmsHostingClient {
             
             return response.getBody();             
             
- /*           
-            HttpResponse<SmsReceivedSearchResult> response = Unirest.get(buildURL("sms/received/search"))
-                    .basicAuth(authKey, authSecret)
-                    .queryString("from", from)
-                    .queryString("simIdRef", simIdRef)
-                    .queryString("fromDate", fromDate)
-                    .queryString("toDate", toDate)
-                    .queryString("offset", offset)
-                    .queryString("limit", limit)
-                    .asObject(SmsReceivedSearchResult.class);
-
-            return response.getBody();
-*/
 
         } catch (Exception e) {
             log.log(Level.SEVERE, "client error", e);
@@ -642,14 +517,6 @@ public class SmsHostingClient {
             
             return response.getBody();
             
-            // SMS send
-            /*
-            HttpResponse<Group> response = Unirest.post(buildURL("phonebook/group"))
-                    .basicAuth(authKey, authSecret)
-                    .field("name", name)
-                    .asObject(Group.class);
-            return response.getBody();
-            */
 
         } catch (Exception e) {
             log.log(Level.SEVERE, "client error", e);
@@ -678,14 +545,6 @@ public class SmsHostingClient {
             return response.getBody();            
             
             
-            // SMS send
-            /*
-            HttpResponse<Group> response = Unirest.put(buildURL("phonebook/group/"+id))
-                    .basicAuth(authKey, authSecret)
-                    .field("name", name)
-                    .asObject(Group.class);
-            return response.getBody();
-            */
 
         } catch (Exception e) {
             log.log(Level.SEVERE, "client error", e);
@@ -743,16 +602,6 @@ public class SmsHostingClient {
             
             return response.getBody();            
 
-/*
-            HttpResponse<ContactSearchResult> response = Unirest.get(buildURL("phonebook/contact/search"))
-                    .basicAuth(authKey, authSecret)
-                    .queryString("name", name)
-                    .queryString("offset", offset)
-                    .queryString("limit", limit)
-                    .asObject(ContactSearchResult.class);
-
-            return response.getBody();
-*/
 
         } catch (Exception e) {
             log.log(Level.SEVERE, "client error", e);
@@ -808,24 +657,6 @@ public class SmsHostingClient {
             
             return response.getBody(); 
             
-/*            
-            MultipartBody body = Unirest.post(buildURL("phonebook/contact"))
-                    .basicAuth(authKey, authSecret)
-                    .field("msisdn", msisdn)
-                    .field("name", name)
-                    .field("lastname", lastname)
-                    .field("email", email)
-                    .field("groupsId", groupsId);
-            
-            if(customFields != null) {
-                for(String key : customFields.keySet()) {
-                    body.field(key, customFields.get(key));
-                }
-            }
-            
-            HttpResponse<Contact> response = body.asObject(Contact.class);
-            return response.getBody();
-*/
 
         } catch (Exception e) {
             log.log(Level.SEVERE, "client error", e);
@@ -864,23 +695,6 @@ public class SmsHostingClient {
             
             return response.getBody();            
             
-            /*
-            MultipartBody body = Unirest.put(buildURL("phonebook/contact/"+msisdn))
-                    .basicAuth(authKey, authSecret)
-                    .field("name", name)
-                    .field("lastname", lastname)
-                    .field("email", email)
-                    .field("groupsId", groupsId);
-            
-            if(customFields != null) {
-                for(String key : customFields.keySet()) {
-                    body.field(key, customFields.get(key));
-                }
-            }
-            
-            HttpResponse<Contact> response = body.asObject(Contact.class);
-            return response.getBody();
-            */
 
         } catch (Exception e) {
             log.log(Level.SEVERE, "client error", e);
