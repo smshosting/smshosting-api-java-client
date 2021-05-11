@@ -18,8 +18,7 @@ Puoi usare questa libreria per:
 - Creare e gestire gruppi
 - Inviare Email singole
 - Inviare campagne Email
-- Controllare lo stato e il credito dell'account
-... e molto di più.
+- Controllare lo stato e il credito dell'account... e molto di più.
 
 ## Come iniziare
 
