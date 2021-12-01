@@ -78,6 +78,7 @@ public class SmsHostingClient {
     private static OkHttpClient clientOkHttp;
     private String SMSH_API_KEY;
     private String SMSH_SECRET_KEY;
+    private String baseUrl = DEFAULT_ENDPOINT;
    
     /**
      * Retrieve an instance of the client
@@ -93,6 +94,21 @@ public class SmsHostingClient {
 
         return clientSmsh;
     }    
+    
+    /**
+     * Retrieve an instance of the client
+     * 
+     * @param authKey  Smshosting Api key
+     * @param authSecret  Smshosting Secret key
+     * @return client instance 
+     */
+    public static SmsHostingClient getInstance(String authKey, String authSecret, String baseUrl){
+        if (clientSmsh == null){ 
+            clientSmsh = new SmsHostingClient(authKey, authSecret, baseUrl);
+        }
+
+        return clientSmsh;
+    }        
             
     /**
      * Create an instance of the client.
@@ -104,15 +120,32 @@ public class SmsHostingClient {
      */
 
     protected SmsHostingClient(String authKey, String authSecret) {   
+        this(authKey, authSecret, null);        
+    }
+    
+    /**
+     * Create an instance of the client.
+     * 
+     * @author Smshosting
+     * 
+     * @param authKey  Smshosting Api key
+     * @param authSecret  Smshosting Secret key
+     * @param baseUrl Base URL
+     */
+
+    protected SmsHostingClient(String authKey, String authSecret, String baseUrl) {   
         
         clientOkHttp = new OkHttpClient.Builder()
             .connectTimeout(10000, TimeUnit.MILLISECONDS)
             .build();                         
         
         setSMSH_API_KEY(authKey);
-        setSMSH_SECRET_KEY(authSecret);        
-    }
-
+        setSMSH_SECRET_KEY(authSecret);   
+        if (baseUrl != null) {
+            setBaseUrl(baseUrl);
+        }
+    }    
+    
     /**
      * Create and retrieve a new Alias
      * 
@@ -1856,7 +1889,7 @@ public class SmsHostingClient {
     }
 
     private String buildURL(String resource) {
-        return DEFAULT_ENDPOINT + resource;
+        return getBaseUrl() + resource;
     }
 
     private String getSMSH_API_KEY() {
@@ -1873,6 +1906,14 @@ public class SmsHostingClient {
 
     private void setSMSH_SECRET_KEY(String SMSH_SECRET_KEY) {
         this.SMSH_SECRET_KEY = SMSH_SECRET_KEY;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
     }
 
 }
