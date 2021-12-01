@@ -18,18 +18,17 @@ Puoi usare questa libreria per:
 - Creare e gestire gruppi
 - Inviare Email singole
 - Inviare campagne Email
-- Controllare lo stato e il credito dell'account
-... e molto di più.
+- Controllare lo stato e il credito dell'account... e molto di più.
 
 ## Come iniziare
 
 #### Crea un account
-- Crea un account Smshosting [quì](https://cloud.smshosting.it/sms/signupInit.ic).
-- Una volta che l'account è attivato, vai su Sviluppatori -> API REST, HTTP e SOAP per accedere alle tue credenziali per le API.
+- Crea un account Smshosting [qui](https://cloud.smshosting.it/sms/signupInit.ic).
+- Una volta attivato l'account, vai su Sviluppatori -> API REST, HTTP e SOAP per accedere alle tue credenziali per le API.
 
 #### Scarica la libreria
 
-- Clona usando Git o scarica la libreria e includila nel tuo progetto.
+- Clona usando `git` o scarica la libreria e includila nel tuo progetto.
 
 ## Alcuni esempi
 
