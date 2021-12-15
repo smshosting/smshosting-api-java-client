@@ -37,7 +37,7 @@ Not all parameters are required. Refer to the [Documentation](https://help.smsho
 
 #### Get the client instance
 ```java
-SmsHostingClient clientSmsh = SmsHostingClient.getInstance("YOUR_API_KEY", "YOUR_SECRET_KEY"));
+SmsHostingClient clientSmsh = new SmsHostingClient("YOUR_API_KEY", "YOUR_SECRET_KEY"));
 ```
 
 #### Send a single SMS

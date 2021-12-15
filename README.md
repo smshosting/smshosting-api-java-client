@@ -36,7 +36,7 @@ Non tutti i parametri sono obbligatori. Fai riferimento alla [Documentazione](ht
 
 #### Ottieni un' istanza del client
 ```java
-SmsHostingClient clientSmsh = SmsHostingClient.getInstance("YOUR_API_KEY", "YOUR_SECRET_KEY"));
+SmsHostingClient clientSmsh = new SmsHostingClient("YOUR_API_KEY", "YOUR_SECRET_KEY"));
 ```
 
 #### Invia singolo SMS 
