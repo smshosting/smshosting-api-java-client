@@ -74,41 +74,11 @@ public class SmsHostingClient {
 
     private static final Logger log = Logger.getLogger(SmsHostingClient.class.getName());        
     public static final String DEFAULT_ENDPOINT = "https://api.smshosting.it/rest/api/";
-    private static SmsHostingClient clientSmsh;
-    private static OkHttpClient clientOkHttp;
+    private SmsHostingClient clientSmsh;
+    private OkHttpClient clientOkHttp;
     private String SMSH_API_KEY;
     private String SMSH_SECRET_KEY;
-    private String baseUrl = DEFAULT_ENDPOINT;
-   
-    /**
-     * Retrieve an instance of the client
-     * 
-     * @param authKey  Smshosting Api key
-     * @param authSecret  Smshosting Secret key
-     * @return client instance 
-     */
-    public static SmsHostingClient getInstance(String authKey, String authSecret){
-        if (clientSmsh == null){ 
-            clientSmsh = new SmsHostingClient(authKey, authSecret);
-        }
-
-        return clientSmsh;
-    }    
-    
-    /**
-     * Retrieve an instance of the client
-     * 
-     * @param authKey  Smshosting Api key
-     * @param authSecret  Smshosting Secret key
-     * @return client instance 
-     */
-    public static SmsHostingClient getInstance(String authKey, String authSecret, String baseUrl){
-        if (clientSmsh == null){ 
-            clientSmsh = new SmsHostingClient(authKey, authSecret, baseUrl);
-        }
-
-        return clientSmsh;
-    }        
+    private String baseUrl = DEFAULT_ENDPOINT;      
             
     /**
      * Create an instance of the client.
@@ -119,7 +89,7 @@ public class SmsHostingClient {
      * @param authSecret  Smshosting Secret key
      */
 
-    protected SmsHostingClient(String authKey, String authSecret) {   
+    public SmsHostingClient(String authKey, String authSecret) {   
         this(authKey, authSecret, null);        
     }
     
@@ -133,7 +103,7 @@ public class SmsHostingClient {
      * @param baseUrl Base URL
      */
 
-    protected SmsHostingClient(String authKey, String authSecret, String baseUrl) {   
+    public SmsHostingClient(String authKey, String authSecret, String baseUrl) {   
         
         clientOkHttp = new OkHttpClient.Builder()
             .connectTimeout(10000, TimeUnit.MILLISECONDS)
