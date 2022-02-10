@@ -50,6 +50,7 @@ import it.smshosting.restapi.client.model.SendSmsBulkResponse;
 import it.smshosting.restapi.client.model.UserResponse;
 import it.smshosting.restapi.client.utilities.Errors;
 import it.smshosting.restapi.client.utilities.ValidationUtils;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -158,7 +159,7 @@ public class SmsHostingClient {
                 return aliasResponse;
             }
             
-            FormBody.Builder requestBody = new FormBody.Builder();          
+            FormBody.Builder requestBody = new FormBody.Builder(StandardCharsets.UTF_8);          
                               
             if (alias != null)           requestBody.add("alias",alias);
             if (businessname != null)    requestBody.add("businessname",businessname);
@@ -325,7 +326,7 @@ public class SmsHostingClient {
                 return sendSmsResponse;
             }              
             
-            FormBody.Builder requestBody = new FormBody.Builder();             
+            FormBody.Builder requestBody = new FormBody.Builder(StandardCharsets.UTF_8);                       
 
             if(from != null)            requestBody.add("from",from);
             if(to != null)              requestBody.add("to",to);
@@ -403,7 +404,7 @@ public class SmsHostingClient {
                 return sendSmsResponse;
             }             
             
-            FormBody.Builder requestBody = new FormBody.Builder();             
+            FormBody.Builder requestBody = new FormBody.Builder(StandardCharsets.UTF_8);             
             
             if(from != null)                requestBody.add("from",from);
             if(to != null)                  requestBody.add("to",to);
@@ -473,7 +474,7 @@ public class SmsHostingClient {
                 return estimateResponse;
             }              
             
-            FormBody.Builder requestBody = new FormBody.Builder();               
+            FormBody.Builder requestBody = new FormBody.Builder(StandardCharsets.UTF_8);               
 
             if(from != null)    requestBody.add("from",from);
             if(to != null)      requestBody.add("to",to);
@@ -530,7 +531,7 @@ public class SmsHostingClient {
                 return cancelSmsResponse;
             }                   
             
-            FormBody.Builder requestBody = new FormBody.Builder();             
+            FormBody.Builder requestBody = new FormBody.Builder(StandardCharsets.UTF_8);             
            
             if(id != null)              requestBody.add("id",id);   
             if(transactionId != null)   requestBody.add("transactionId",transactionId);                         
@@ -920,7 +921,7 @@ public class SmsHostingClient {
                 return groupResponse;
             }            
             
-            FormBody.Builder requestBody = new FormBody.Builder();             
+            FormBody.Builder requestBody = new FormBody.Builder(StandardCharsets.UTF_8);             
            
             if (name != null)    requestBody.add("name",name);                                        
             
@@ -974,7 +975,7 @@ public class SmsHostingClient {
                 return groupResponse;
             }            
             
-            FormBody.Builder requestBody = new FormBody.Builder();                
+            FormBody.Builder requestBody = new FormBody.Builder(StandardCharsets.UTF_8);                
             
             if (name != null)    requestBody.add("name",name);                        
             
@@ -1200,7 +1201,7 @@ public class SmsHostingClient {
                 return contactResponse;
             }            
             
-            FormBody.Builder requestBody = new FormBody.Builder();                            
+            FormBody.Builder requestBody = new FormBody.Builder(StandardCharsets.UTF_8);                            
             
             if(msisdn != null)                  requestBody.add("msisdn",msisdn);
             if(name != null)                    requestBody.add("name",name);  
@@ -1272,7 +1273,7 @@ public class SmsHostingClient {
                 return contactResponse;
             }            
             
-            FormBody.Builder requestBody = new FormBody.Builder();                            
+            FormBody.Builder requestBody = new FormBody.Builder(StandardCharsets.UTF_8);                            
                 
             if(name != null)        requestBody.add("name",name);
             if(lastname != null)    requestBody.add("lastname",lastname);  
@@ -1695,7 +1696,7 @@ public class SmsHostingClient {
                 return sendEmailCampaignResponse;
             }            
             
-            FormBody.Builder requestBody = new FormBody.Builder();             
+            FormBody.Builder requestBody = new FormBody.Builder(StandardCharsets.UTF_8);             
 
             if(templateId != null)          requestBody.add("templateId",templateId);
             if(from != null)                requestBody.add("from",from);
@@ -1774,7 +1775,7 @@ public class SmsHostingClient {
                 return sendEmailCampaignResponse;
             }            
             
-            FormBody.Builder requestBody = new FormBody.Builder();             
+            FormBody.Builder requestBody = new FormBody.Builder(StandardCharsets.UTF_8);             
 
             if(templateId != null)          requestBody.add("templateId",templateId);
             if(from != null)                requestBody.add("from",from);
