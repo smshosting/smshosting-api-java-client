@@ -105,9 +105,15 @@ public class SmsHostingClient {
      */
 
     public SmsHostingClient(String authKey, String authSecret, String baseUrl) {   
+        this(authKey, authSecret, baseUrl, 10000);
+    }    
+    
+    public SmsHostingClient(String authKey, String authSecret, String baseUrl, long timeout) {   
         
         clientOkHttp = new OkHttpClient.Builder()
-            .connectTimeout(10000, TimeUnit.MILLISECONDS)
+            .connectTimeout(timeout, TimeUnit.MILLISECONDS)
+            .readTimeout(timeout, TimeUnit.MILLISECONDS)
+            .writeTimeout(timeout, TimeUnit.MILLISECONDS)
             .build();                         
         
         setSMSH_API_KEY(authKey);
