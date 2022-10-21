@@ -37,7 +37,7 @@ Not all parameters are required. Refer to the [Documentation](https://help.smsho
 
 #### Get the client instance
 ```java
-SmsHostingClient clientSmsh = new SmsHostingClient("YOUR_API_KEY", "YOUR_SECRET_KEY"));
+SmsHostingClient clientSmsh = new SmsHostingClient("YOUR_API_KEY", "YOUR_SECRET_KEY");
 ```
 
 #### Send a single SMS
@@ -52,12 +52,12 @@ ContactResponse res = clientSmsh.addContact("39YYYXXXXXXX", "ContactName", "Cont
 
 #### Get contact list
 ```java
-ContactSearchResponse res = res = clientSmsh.searchContacts(null, null, null, null, null, null, null);
+ContactSearchResponse res = clientSmsh.searchContacts(null, null, null, null, null, null, null);
 ```
 
 #### Search contact by phone number
 ```java
-ContactSearchResponse res = res = clientSmsh.searchContacts(null, "39YYYXXXXXXX", null, null, null, null, null);
+ContactSearchResponse res = clientSmsh.searchContacts(null, "39YYYXXXXXXX", null, null, null, null, null);
 ```
 
 ## Documentation

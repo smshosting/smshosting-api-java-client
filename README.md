@@ -36,7 +36,7 @@ Non tutti i parametri sono obbligatori. Fai riferimento alla [Documentazione](ht
 
 #### Ottieni un' istanza del client
 ```java
-SmsHostingClient clientSmsh = new SmsHostingClient("YOUR_API_KEY", "YOUR_SECRET_KEY"));
+SmsHostingClient clientSmsh = new SmsHostingClient("YOUR_API_KEY", "YOUR_SECRET_KEY");
 ```
 
 #### Invia singolo SMS 
@@ -51,12 +51,12 @@ ContactResponse res = clientSmsh.addContact("39YYYXXXXXXX", "ContactName", "Cont
 
 #### Ottieni la lista dei contatti
 ```java
-ContactSearchResponse res = res = clientSmsh.searchContacts(null, null, null, null, null, null, null);
+ContactSearchResponse res = clientSmsh.searchContacts(null, null, null, null, null, null, null);
 ```
 
 #### Cerca contatto usando il numero di telefono
 ```java
-ContactSearchResponse res = res = clientSmsh.searchContacts(null, "39YYYXXXXXXX", null, null, null, null, null);
+ContactSearchResponse res = clientSmsh.searchContacts(null, "39YYYXXXXXXX", null, null, null, null, null);
 ```
 
 ## Documentazione
